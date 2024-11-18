@@ -1,7 +1,7 @@
 export default async function fetchByCategory(category) {
-    const apiKey = process.env.NEXT_PUBLIC_NEWS_API_KEY;
+    const apiKey = 'ae4feff2162e44e08e2d45a7ed79a9d1';
     const url = `https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=${apiKey}`;
-  
+    console.log(apiKey)
     console.log('Fetching from URL:', url);
   
     try {
