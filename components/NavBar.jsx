@@ -37,7 +37,7 @@ export default function NavBar({ onSearch, onFilterClick }) {
             className='focus:border-black p-1'
             value={query}
             onChange={handleInputChange} 
-            placeholder="Buscar noticias..."
+            placeholder="Search News..."
           />
           <button
             className='bg-black  text-white p-1'
