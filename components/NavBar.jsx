@@ -10,11 +10,7 @@ export default function NavBar({ onSearch, onFilterClick }) {
     setQuery(searchValue);
     onSearch(searchValue);
   };
-  const handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
-      onSearch(query);
-    }
-  };
+  
   const handleSearch = () => {
     onSearch(query); 
   };
