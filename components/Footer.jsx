@@ -3,7 +3,7 @@ import React from 'react'
 
 export default function Footer() {
     return (
-        <footer className='w-full bg-black text-white pt-6 md:px-20 rounded-t-2xl'>
+        <footer className='w-full bg-gradient-to-r from-black via-gray-800 to-gray-500 text-white pt-6 md:px-20'>
             <div className='flex justify-center items-center flex-col'>
                 <div className='flex gap-5 items-center'>
                     <figure className='w-36 md:w-44 justify-center flex flex-col'>

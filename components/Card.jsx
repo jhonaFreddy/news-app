@@ -13,7 +13,7 @@ export default function Card({ title, description, imageUrl }) {
     >
       <figure className="relative">
         <Image
-          className="w-full h-auto"
+          className="w-full h-auto rounded-xl"
           src={imageUrl}
           alt={title}
           width={800}
