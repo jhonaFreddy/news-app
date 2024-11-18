@@ -3,10 +3,10 @@ import React from 'react'
 
 export default function Footer() {
     return (
-        <footer className='w-full bg-black text-white pd-5 md:px-20'>
+        <footer className='w-full bg-black text-white pt-6 md:px-20 rounded-t-2xl'>
             <div className='flex justify-center items-center flex-col'>
                 <div className='flex gap-5 items-center'>
-                    <figure className='w-36 md:w-36 justify-center flex flex-col'>
+                    <figure className='w-36 md:w-44 justify-center flex flex-col'>
                         <Image className='w-full bg-transparent' src={'/logo-news.png'} width={1000} height={500} alt='logo de Funval' priority />
                     </figure>
 
@@ -42,7 +42,7 @@ export default function Footer() {
             </div>
             <div className='flex flex-col gap-2 text-xs md:text-base text-center'>
                 <h3>Home |  Terms and Condition |  Privacy Policy |  Collection Statement |  Help |  Manage Account</h3>
-                <h3>Copyright © 2024 Sync Money, All Rights Reserved</h3>
+                <h3>Copyright © 2024 News App, All Rights Reserved</h3>
             </div>
         </footer>
     )
