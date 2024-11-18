@@ -1,5 +1,5 @@
 export default async function fetchByQuery(query) {
-    const apiKey = 'ae4feff2162e44e08e2d45a7ed79a9d1';
+    const apiKey = process.env.NEXT_PUBLIC_NEWS_API_KEY;
     const url = `https://newsapi.org/v2/everything?q=${encodeURIComponent(query)}&apiKey=${apiKey}`;
   
     try {
