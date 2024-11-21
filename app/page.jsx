@@ -20,21 +20,26 @@ export default function HomePage() {
   const languages = ['ar', 'de', 'en', 'es', 'fr', 'he', 'it', 'nl', 'no', 'pt', 'ru', 'sv', 'ud', 'zh'];
   const sortOptions = ['relevancy', 'popularity', 'publishedAt'];
   const countries = ['ae', 'ar', 'at', 'au', 'be', 'bg', 'br', 'ca', 'ch', 'cn', 'co', 'cu', 'cz', 'de', 'eg', 'fr', 'gb', 'gr', 'hk', 'hu', 'id', 'ie', 'il', 'in', 'it', 'jp', 'kr', 'lt', 'lv', 'ma', 'mx', 'my', 'ng', 'nl', 'no', 'nz', 'ph', 'pl', 'pt', 'ro', 'rs', 'ru', 'sa', 'se', 'sg', 'si', 'sk', 'th', 'tr', 'tw', 'ua', 'us', 've', 'za'];
+ 
   const handleApplyFilters = async (filters) => {
-    try {
-      const articles = await fetchWithFilters(filters);
-      console.log('Filtered articles:', articles);
-      setArticles(articles);
-      setNews([]);
-      setIsFilterModalOpen(false);
-    } catch (error) {
-      console.error('Error applying filters:', error);
-    }
-  };
+    resetStates();
+  setSourceType('filter');
+  try {
+    const filteredArticles = await fetchWithFilters(filters);
+    setArticles(filteredArticles);
+  } catch (error) {
+    console.error('Error applying filters:', error);
+  } finally {
+    setIsFilterModalOpen(false);
+    setLoading(false);
+  }
+};
 
-  const handleFilterClick = () => {
-    setIsFilterModalOpen(true);
-  };
+
+const handleFilterClick = () => {
+  setIsFilterModalOpen(true);
+  
+};
 
 
   const categories = [
@@ -66,18 +71,17 @@ export default function HomePage() {
 
   
   const handleSearch = async (query) => {
-    setArticles([]);
-    setSelectedCategory(''); 
-    setNews([]); 
-    setLoading(true);
+    resetStates();
+  setSourceType('query');
   
     try {
       if (!query) {
-        
         await fetchDefaultNews();
+
+      setSourceType('default');
       } else {
         const searchResults = await fetchByQuery(query);
-        setArticles(searchResults); 
+        setArticles(searchResults);
       }
     } catch (error) {
       console.error('Error searching news:', error);
@@ -86,10 +90,9 @@ export default function HomePage() {
     }
   };
   const handleCategoryClick = async (category) => {
-    setLoading(true);
-    setSelectedCategory(category);
-    setArticles([]); 
-    setNews([]); 
+    resetStates();
+  setSourceType('category');
+  setSelectedCategory(category);
   
     try {
       const categoryNews = await fetchByCategory(category.toLowerCase());
@@ -121,12 +124,18 @@ export default function HomePage() {
     setVisibleArticles((prevVisible) => prevVisible + 10);
   };
 
+  const [sourceType, setSourceType] = useState('default');
+  const resetStates = () => {
+    setArticles([]);
+    setNews([]);
+    setLoading(true);
+    setSelectedCategory('');
+  };
+  
+
   return (
     <div className="flex flex-col">
-    <NavBar onSearch={handleSearch} onFilterClick={handleFilterClick} />
-
-
-
+      <NavBar onSearch={handleSearch} onFilterClick={handleFilterClick} />
     {!isAsideVisible && (
       <button
         className="top-0 left-0 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-600 px-3 text-white text-2xl py-5 justify-start flex font-bold items-center"
@@ -195,7 +204,7 @@ export default function HomePage() {
             </div>
           ))
         ) : (
-          <p className="text-white text-xl">No se encontraron resultados</p>
+          <p className="text-white text-xl">No se encontraron resultados por favor realice una BUSQUEDA</p>
         )
       )}
 
@@ -247,7 +256,7 @@ export default function HomePage() {
     </aside>
     
       
-      {isFilterModalOpen && articles.length === 0 && (
+      {isFilterModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-gradient-to-b from-gray-900 via-gray-800 to-gray-600 p-6 text-white rounded-lg shadow-lg relative z-60 w-96">
             <button
@@ -264,20 +273,6 @@ export default function HomePage() {
               countries={countries}
               sortOptions={sortOptions}
             />
-            {articles.length > 0 ? (
-  articles.slice(0, visibleArticles).map((article, index) => (
-    <div key={index} onClick={() => handleArticleClick(article)} className="w-[600px] mx-auto my-3 rounded-lg overflow-hidden flex shadow-lg ease-in duration-300 hover:scale-105 cursor-pointer">
-      <div className="relative w-full h-96 bg-cover bg-center bg-black" style={{ backgroundImage: `url(${article.urlToImage || '/logo-news.png'})` }}>
-        <div className="absolute inset-0 flex items-end justify-center text-white bg-black bg-opacity-25">
-          <h2 className="font-bold text-lg text-center">{article.title}</h2>
-        </div>
-      </div>
-    </div>
-  ))
-) : (
-  <p className="text-white text-xl">No se encontraron resultados</p>
-)}
-
           </div>
         </div>
       )}
