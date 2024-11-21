@@ -204,7 +204,7 @@ const handleFilterClick = () => {
             </div>
           ))
         ) : (
-          <p className="text-white text-xl">No se encontraron resultados por favor realice una BUSQUEDA</p>
+          <p className="text-white text-xl pb-44">No se encontraron resultados por favor realice una BUSQUEDA</p>
         )
       )}
 
